@@ -1,0 +1,51 @@
+@if(loading){
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+
+
+
+<div class="container mt-5">
+  <div class="row">
+
+    <h1 class="text-center">Carrito de compra</h1>
+    <!-- Verificar si el carrito está vacío -->
+    <ng-container *ngIf="servicios.length === 0; else carritoNoVacio">
+      <p class="text-center">El carrito está vacío</p>
+    </ng-container>
+    <ng-template #carritoNoVacio>
+      
+
+      <hr>
+      <div class="card mb-3" *ngFor="let servicio of servicios">
+        <div class="row g-0">
+          <div class="col-md-2 d-flex align-items-center justify-content-end">
+            <div class="rounded overflow-hidden border border-dark">
+              <img [src]="servicio.imagen ? 'https://digital.up.railway.app' + servicio.imagen : 'https://via.placeholder.com/300'" class="card-img-top" alt="Imagen del servicio">
+            </div>
+          </div>
+          <div class="col-md-10">
+            <div class="card-body">
+              <h5 class="card-title">{{ servicio.nombre_servicio }}</h5>
+              <p class="card-text"><strong>Cantidad:</strong> {{ servicio.cantidad }}</p>
+              <p class="card-text"><strong>Precio:</strong> {{ servicio.precio }}</p>
+              <p class="card-text"><strong>Total:</strong> {{ servicio.total }}</p>
+              <a class="btn btn-danger m-2" (click)="eliminarDelCarrito(servicio.servicio_id)">Eliminar del carrito</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <h3>Total Carrito: {{ pedido.total }}€</h3>  
+          
+        </div>
+      </div>
+    </ng-template>
+    <div id="paypal-button-container"></div>
+  </div>
+</div>

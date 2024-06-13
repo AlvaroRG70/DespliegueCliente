@@ -1,0 +1,50 @@
+@if(loading){
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+<div class="container mt-5">
+  <h1>Servicios Disponibles</h1>
+  
+  <div class="row mb-4">
+
+    
+
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Buscar servicio" [(ngModel)]="searchTerm" (input)="filterAndSortServicios()">
+    </div>
+    <div class="col-md-6">
+      <select class="form-control" [(ngModel)]="sortOrder" (change)="filterAndSortServicios()">
+        <option value="default">Ordenar por</option>
+        <option value="asc">Precio: Menor a Mayor</option>
+        <option value="desc">Precio: Mayor a Menor</option>
+        <option value="az">Nombre: A-Z</option>
+        <option value="za">Nombre: Z-A</option>
+      </select>
+    </div>
+    <ng-container *ngIf="servicios.length === 0;">
+      <p class="text-center">No hay servicios disponibles</p>
+    </ng-container>
+  </div>
+  
+  <div *ngIf="loading" class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  
+  <div *ngIf="!loading" class="row">
+    <div class="col-lg-4 mb-4" *ngFor="let servicio of filteredServicios; let i = index">
+      <div class="card">
+        <img [src]="servicio.imagen ? 'https://digital.up.railway.app' + servicio.imagen : 'https://via.placeholder.com/300'" class="card-img-top" alt="Imagen del servicio">
+        <div class="card-body">
+          <h3 class="card-title">{{ servicio.nombre }}</h3>
+          <p class="card-text">{{ servicio.descripcion.length > 100 ? (servicio.descripcion | slice:0:100) + '...' : servicio.descripcion   }}</p>
+          <h2 class="card-text"> {{ servicio.precio }} €</h2>
+          <a href="servicio/{{servicio.id}}" class="btn btn-primary">Ver más</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
